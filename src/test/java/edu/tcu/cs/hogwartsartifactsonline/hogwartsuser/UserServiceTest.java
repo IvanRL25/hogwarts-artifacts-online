@@ -207,9 +207,7 @@ class UserServiceTest {
 
         //when
 
-        Throwable thrown = assertThrows(ObjectNotFoundException.class, () -> {
-            this.userService.update(1, update);
-        });
+        Throwable thrown = assertThrows(ObjectNotFoundException.class, () -> this.userService.update(1, update));
 
         //then
 
@@ -250,9 +248,7 @@ class UserServiceTest {
 
         //when
 
-        Throwable thrown = assertThrows(ObjectNotFoundException.class, () -> {
-            this.userService.delete(1);
-        });
+        Throwable thrown = assertThrows(ObjectNotFoundException.class, () -> this.userService.delete(1));
 
         //then
         

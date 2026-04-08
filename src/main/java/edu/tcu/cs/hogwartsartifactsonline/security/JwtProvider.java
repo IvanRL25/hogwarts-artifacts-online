@@ -1,6 +1,7 @@
 package edu.tcu.cs.hogwartsartifactsonline.security;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 @Component
 public class JwtProvider {
 
-    private JwtEncoder jwtEncoder;
+    private final JwtEncoder jwtEncoder;
 
     public JwtProvider(JwtEncoder jwtEncoder) {
         this.jwtEncoder = jwtEncoder;
@@ -26,7 +27,7 @@ public class JwtProvider {
         //prepare a claim called authorities
 
         String authorities = authentication.getAuthorities().stream()
-                .map(grantedAuthority -> grantedAuthority.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" ")); //must be space delimited
 
         JwtClaimsSet claims = JwtClaimsSet.builder()

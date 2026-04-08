@@ -162,9 +162,7 @@ class WizardServiceTest {
         given(this.wizardRepository.findById(1)).willReturn(Optional.empty());
 
         //when
-        assertThrows(ObjectNotFoundException.class, ()->{
-            this.wizardServic.update(1,update);
-        });
+        assertThrows(ObjectNotFoundException.class, ()-> this.wizardServic.update(1,update));
 
         //then
         verify(this.wizardRepository, times(1)).findById(1);
@@ -196,9 +194,7 @@ class WizardServiceTest {
 
         //when
 
-        assertThrows(ObjectNotFoundException.class, ()->{
-            this.wizardServic.delete(1);
-        });
+        assertThrows(ObjectNotFoundException.class, ()-> this.wizardServic.delete(1));
 
         //then
 
@@ -259,9 +255,7 @@ class WizardServiceTest {
 
         //when
 
-        Throwable thrown = assertThrows(ObjectNotFoundException.class, ()-> {
-            this.wizardServic.assignArtifact(3,"1250808601744904192");
-        });
+        Throwable thrown = assertThrows(ObjectNotFoundException.class, ()-> this.wizardServic.assignArtifact(3,"1250808601744904192"));
 
         //then
 
@@ -281,9 +275,7 @@ class WizardServiceTest {
 
         //when
 
-        Throwable thrown = assertThrows(ObjectNotFoundException.class, ()-> {
-            this.wizardServic.assignArtifact(3,"1250808601744904192");
-        });
+        Throwable thrown = assertThrows(ObjectNotFoundException.class, ()-> this.wizardServic.assignArtifact(3,"1250808601744904192"));
 
         //then
 

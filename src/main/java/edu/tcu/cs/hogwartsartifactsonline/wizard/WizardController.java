@@ -1,7 +1,7 @@
 package edu.tcu.cs.hogwartsartifactsonline.wizard;
 
 
-import com.sun.net.httpserver.Authenticator;
+
 import edu.tcu.cs.hogwartsartifactsonline.system.Result;
 import edu.tcu.cs.hogwartsartifactsonline.system.StatusCode;
 import edu.tcu.cs.hogwartsartifactsonline.wizard.converter.WizardDtoToWizardConverter;
