@@ -51,7 +51,7 @@ public class WizardControllerTest {
     String baseUrl;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         Artifact a1 = new Artifact();
         a1.setId("1250808601744904191");
         a1.setName("Deluminator");

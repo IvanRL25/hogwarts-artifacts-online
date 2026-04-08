@@ -25,7 +25,7 @@ public class AuthService {
     public Map<String, Object> createLoginInfo(Authentication authentication) {
         //create user info
         MyUserPrinciple principle =  (MyUserPrinciple) authentication.getPrincipal();
-        HogwartsUser hogwartsUser = principle.getHogwartsUser();
+        HogwartsUser hogwartsUser = principle.hogwartsUser();
         UserDto userDto = this.userToUserDtoConverter.convert(hogwartsUser);
 
 

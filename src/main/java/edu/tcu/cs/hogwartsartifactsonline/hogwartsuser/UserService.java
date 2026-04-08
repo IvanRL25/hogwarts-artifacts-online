@@ -62,7 +62,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.userRepository.findByUsername(username)//find user from database
-                .map(hogwartsUser -> new  MyUserPrinciple(hogwartsUser)) //if found wrap it in MyUserPrinciple instance
+                .map(MyUserPrinciple::new) //if found wrap it in MyUserPrinciple instance
                 .orElseThrow(()-> new UsernameNotFoundException("username "+ username + " is not found")); //otherwise throw exception
     }
 }

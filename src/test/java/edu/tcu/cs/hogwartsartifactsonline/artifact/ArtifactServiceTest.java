@@ -195,9 +195,7 @@ class ArtifactServiceTest {
 
         //when
 
-        assertThrows(ObjectNotFoundException.class, ()->{
-           this.artifactService.update("1250808601744904192", update);
-        });
+        assertThrows(ObjectNotFoundException.class, ()-> this.artifactService.update("1250808601744904192", update));
 
         //then
 
@@ -236,9 +234,7 @@ class ArtifactServiceTest {
 
         //when
 
-        assertThrows(ObjectNotFoundException.class, ()->{
-            this.artifactService.delete("1250808601744904192");
-        });
+        assertThrows(ObjectNotFoundException.class, ()-> this.artifactService.delete("1250808601744904192"));
 
         //then
 

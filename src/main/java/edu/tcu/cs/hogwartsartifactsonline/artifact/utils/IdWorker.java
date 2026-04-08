@@ -16,9 +16,9 @@ public class IdWorker {
 
     private final static long datacenterIdBits = 5L;
 
-    private final static long maxWorkerId = -1L ^ (-1L << workerIdBits);
+    private final static long maxWorkerId = ~(-1L << workerIdBits);
 
-    private final static long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
+    private final static long maxDatacenterId = ~(-1L << datacenterIdBits);
 
     private final static long sequenceBits = 12L;
 
@@ -28,7 +28,7 @@ public class IdWorker {
 
     private final static long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
 
-    private final static long sequenceMask = -1L ^ (-1L << sequenceBits);
+    private final static long sequenceMask = ~(-1L << sequenceBits);
 
     private static long lastTimestamp = -1L;
 
@@ -40,8 +40,8 @@ public class IdWorker {
 
 
     public IdWorker() {
-        this.datacenterId = getDatacenterId(maxDatacenterId);
-        this.workerId = getMaxWorkerId(datacenterId, maxWorkerId);
+        this.datacenterId = getDatacenterId();
+        this.workerId = getMaxWorkerId(datacenterId);
     }
 
     public IdWorker(long workerId, long datacenterId) {
@@ -69,10 +69,9 @@ public class IdWorker {
             sequence = 0L;
         }
         lastTimestamp = timestamp;
-        long nextId = ((timestamp - twepoch) << timestampLeftShift)
+        return ((timestamp - twepoch) << timestampLeftShift)
                 | (datacenterId << datacenterIdShift)
                 | (workerId << workerIdShift) | sequence;
-        return nextId;
     }
 
     private long tilNextMillis(final long lastTimestamp) {
@@ -87,17 +86,17 @@ public class IdWorker {
         return System.currentTimeMillis();
     }
 
-    protected static long getMaxWorkerId(long datacenterId, long maxWorkerId) {
-        StringBuffer mpid = new StringBuffer();
+    protected static long getMaxWorkerId(long datacenterId) {
+        StringBuilder mpid = new StringBuilder();
         mpid.append(datacenterId);
         String name = ManagementFactory.getRuntimeMXBean().getName();
         if (!name.isEmpty()) {
             mpid.append(name.split("@")[0]); // GET jvmPid
         }
-        return (mpid.toString().hashCode() & 0xffff) % (maxWorkerId + 1);
+        return (mpid.toString().hashCode() & 0xffff) % (IdWorker.maxWorkerId + 1);
     }
 
-    protected static long getDatacenterId(long maxDatacenterId) {
+    protected static long getDatacenterId() {
         long id = 0L;
         try {
             InetAddress ip = InetAddress.getLocalHost();
@@ -108,7 +107,7 @@ public class IdWorker {
                 byte[] mac = network.getHardwareAddress();
                 id = ((0x000000FF & (long) mac[mac.length - 1])
                         | (0x0000FF00 & (((long) mac[mac.length - 2]) << 8))) >> 6;
-                id = id % (maxDatacenterId + 1);
+                id = id % (IdWorker.maxDatacenterId + 1);
             }
         } catch (Exception e) {
             System.out.println(" getDatacenterId: " + e.getMessage());

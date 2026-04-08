@@ -1,8 +1,6 @@
 spring:
   profiles:
     active: dev #by default, the active profile is dev. During production, it will be replaced with prod due to environment variables
-  mvc:
-    throws-exception-if-no-handler-found: true
   web:
     resources:
       add-mappings: false
